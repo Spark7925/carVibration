@@ -1,0 +1,111 @@
+.InquireSelectTable {
+    margin-left: 220px;
+    overflow: auto;
+    font-size: 10px;
+}
+
+.PublicTableCss {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #ccc;
+}
+
+.PublicTableCss thead {
+    background: #e2e2e2;
+}
+
+.PublicTableCss thead tr {
+}
+
+.PublicTableCss thead tr td {
+    max-width: 135px;
+    padding: 10px 15px;
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    white-space: nowrap;
+}
+
+.PublicTableCss thead tr td::before {
+    position: absolute;
+    content: "";
+    right: 0.5px;
+    top: 50%;
+    width: 1px;
+    height: 70%;
+    background: #fff;
+    -webkit-transform: translate(0%, -50%);
+    -moz-transform: translate(0%, -50%);
+    -ms-transform: translate(0%, -50%);
+    -o-transform: translate(0%, -50%);
+    transform: translate(0%, -50%);
+}
+
+.PublicTableCss thead tr td:last-child::before {
+    display: none;
+}
+
+.PublicTableCss tbody {
+}
+
+.PublicTableCss tbody tr {
+    border-bottom: 1px solid #ccc;
+}
+
+.PublicTableCss tbody tr:hover {
+    background: #f3f3f3;
+    transition: all ease .3s;
+}
+
+.PublicTableCss tbody tr td {
+    max-width: 400px;
+    padding: 5px 15px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*.PublicTableCss tbody tr td::before { position: absolute; content: ""; right: 0.5px; top: 4px; width: 1px; height: 70%; background: #ccc; }*/
+.PublicTableCss tbody tr td::before {
+    position: absolute;
+    content: "";
+    right: 0.5px;
+    top: 50%;
+    width: 1px;
+    height: 70%;
+    background: #ccc;
+    -webkit-transform: translate(0%, -50%);
+    -moz-transform: translate(0%, -50%);
+    -ms-transform: translate(0%, -50%);
+    -o-transform: translate(0%, -50%);
+    transform: translate(0%, -50%);
+}
+
+.PublicTableCss tbody tr td:last-child::before {
+    display: none;
+}
+
+.PublicTableCss tbody tr td .productImgBox {
+    width: 65px;
+    height: 65px;
+    overflow: hidden;
+    margin: auto;
+}
+
+.PublicTableCss tbody tr td .productImgBox img {
+    width: 100%;
+}
+
+#submit-btn {
+    margin-left:600px;
+    margin-top:5px;
+}
+
+#submit-btn span {
+    font-size:14px;
+    color:black;
+    background-color:white;
+}
+

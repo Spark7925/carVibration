@@ -1,0 +1,82 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,  initial-scale=1">
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/base_css.css"/>
+
+    {% block head_block %}
+    {% endblock %}
+
+
+</head>
+<body>
+
+<div class="main">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">振动仿真</a>
+            </div>
+
+            <div class="btn-group" role="group" aria-label="..." id="base-btn-group">
+                <button type="button" class="btn btn-default" id="emulate-begin">仿真开始</button>
+                <button type="button" class="btn btn-default"><a href="/emulate/initialize/">参数初始化</a></button>
+                <button type="button" class="btn btn-default">车载设备参数</button>
+                <button type="button" class="btn btn-default">振动激励设置</button>
+                <button type="button" class="btn btn-default">参数检验</button>
+                <button type="button" class="btn btn-default">仿真求解</button>
+                <button type="button" class="btn btn-default">结果显示</button>
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+
+<script src="/static/jquery/jquery-3.3.1.js"></script>
+<script src="/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+    $("#emulate-begin").click(function () {
+        // 单击仿真开始，弹出提示框
+        alert("您已开始一次仿真，请按步骤进行！")
+        // 生成12位随机字符串
+        var str = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+        var res = "";
+        for (var i = 0; i < 12; i++) {
+            var id = Math.ceil(Math.random() * 35)
+            res += str[id];
+        }
+        alert(res)
+        // 在id="base-btn-group"的div标签下创建名为"secret_key"的随机字符串
+        $("#base-btn-group").attr("secret_key",res);
+    });
+
+
+</script>
+
+
+{% block script-content %}
+{% endblock %}
+
+
+</body>
+</html>

@@ -18,6 +18,7 @@ from django.urls import path
 from django.conf.urls import url, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    url(r'^initialization/', include('vibration.urls')),
+    url('admin/', admin.site.urls),
+    url(r'', include('main.urls')),
+    url(r'^emulate/', include('vibration.urls')),
 ]

@@ -2,14 +2,16 @@
 # encoding: utf-8
 
 """
-version: ***
+version: 1.0.0
 author: binchen
 time: 2021-11-25 18:02
 """
 
-from django.urls import path
+from django.conf.urls import url
+from vibration.views import Initialization,Set
 
 
 urlpatterns = [
-    # path(r'merchandise/',ShoppingCenter.as_view(),name="initializePara"),
+    url(r'initialize/',Initialization.as_view(),name="initializePara"),
+    url(r'set/',Set.as_view(),name="set"),
 ]

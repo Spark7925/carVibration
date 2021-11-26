@@ -1,0 +1,56 @@
+{% extends "base_templates/base.html" %}
+
+
+{% block head_block %}
+    <link rel="stylesheet" href="/static/css/initialize_css.css"/>
+
+{% endblock %}
+
+
+{% block content %}
+    <!--查询到的表格-->
+
+    <div class="InquireSelectTable">
+        <table class="PublicTableCss">
+            <thead>
+            <tr>
+
+                <td>ID</td>
+                <td>项目</td>
+                <td>数值</td>
+                <td>单位</td>
+
+            </tr>
+
+            </thead>
+            <tbody>
+            {% for data_item in data_list %}
+                <tr>
+
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ data_item.name }}</td>
+                    <td><input type="text" value="{{ data_item.value }}"></td>
+                    <td>{{ data_item.unit }}</td>
+{#                    <td>#}
+{##}
+{#                        <div class="PublicTableBtnIcon Color4Btn Js_delete">#}
+{#                            <i class="iconfont icon-shanchu"></i>#}
+{#                            <span>删除</span>#}
+{#                        </div>#}
+{#                    </td>#}
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <h3><span class="label label-default" id="submit-btn">数据初始化</span></h3>
+
+<script setup lang="ts">
+import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons'
+</script>
+
+
+{% endblock %}
