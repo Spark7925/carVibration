@@ -1,0 +1,21 @@
+{% extends "base_templates/base.html" %}
+
+
+{% block head_block %}
+    <title>设置振动激励参数</title>
+    <link rel="stylesheet" href="/static/css/vibration_func_css.css"/>
+{% endblock %}
+
+
+{% block content %}
+
+    <form action="/vibration/vibration_func/" method="post" novalidate class="equipment-form">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <p>
+            <input id="vibration-func-save" class="btn btn-info form-control" type="submit" value="提交">
+        </p>
+    </form>
+
+{% endblock %}

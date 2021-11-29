@@ -1,7 +1,27 @@
 from django.views import View
+from django.views import generic
 from django.shortcuts import render
+from django.http import JsonResponse
+
+from vibration.forms import EquipmentSetForm, VibrationFuncForm
+from vibration.models import SetData
 
 # Create your views here.
+
+
+# 仿真开始函数
+def begin(request):
+    ret = {"status": 0, "message": "内部数据错误,请重试!"}
+    if request.method == "POST":
+        secret_key = request.POST.get("secret_key", None)
+        if secret_key:
+            request.session["secret_key"] = secret_key
+            SetData.objects.create(**{"secret_key": secret_key})
+            ret["status"] = 1
+            ret["message"] = ""
+            return JsonResponse(ret)
+    return JsonResponse(ret)
+
 
 
 class Initialization(View):
@@ -24,16 +44,70 @@ class Initialization(View):
                      {"name": "后轮中心至车架质心的距离", "value": 1.5, "unit": "m"},
                      {"name": "汽车前后轴之间距离", "value": 3.3, "unit": "m"}
                      ]
-        context = {"data_list":data_list}
+        context = {"data_list": data_list}
 
-        return render(request, 'main/initialize.html', context)
+        return render(request, 'vibration/initialize.html', context)
 
 
-class Set(View):
+# 用户设置车载设备参数
+class EquipmentSet(generic.FormView):
     """
     车载设备参数设置
     """
-    pass
+    form_class = EquipmentSetForm
+    template_name = 'vibration/equipment_set.html'
+    success_url = '/vibration/equipment_set/'
+
+    def form_valid(self, form):
+        secret_key = self.request.session['secret_key']
+        set_data_obj = SetData.objects.get(secret_key=secret_key)
+        if set_data_obj:
+            set_data_obj.m3 = form.cleaned_data['m3']
+            set_data_obj.m4 = form.cleaned_data['m4']
+            set_data_obj.l3 = form.cleaned_data['l3']
+            set_data_obj.l4 = form.cleaned_data['l4']
+            set_data_obj.save()
+        else:
+            kwargs = {
+                'm3': form.cleaned_data['m3'],
+                'm4': form.cleaned_data['m4'],
+                'l3': form.cleaned_data['l3'],
+                'l4': form.cleaned_data['l4'],
+                'secret_key': secret_key
+            }
+            set_data_obj.objects.create(**kwargs)
+
+        return super(EquipmentSet, self).form_valid(form)
+
+
+# 用户设置振动激励函数参数
+class VibrationFunc(generic.FormView):
+    """
+    振动激励函数参数设置
+    """
+    form_class = VibrationFuncForm
+    template_name = 'vibration/vibration_func.html'
+    success_url = '/vibration/vibration_func/'
+
+    def form_valid(self, form):
+        secret_key = self.request.session['secret_key']
+        set_data_obj = SetData.objects.get(secret_key=secret_key)
+        if set_data_obj:
+            set_data_obj.amplitude = form.cleaned_data['amplitude']
+            set_data_obj.frequency = form.cleaned_data['frequency']
+            set_data_obj.save()
+        else:
+            kwargs = {
+                'amplitude': form.cleaned_data['amplitude'],
+                'frequency': form.cleaned_data['frequency'],
+                'secret_key': secret_key
+            }
+            set_data_obj.objects.create(**kwargs)
+
+        return super(VibrationFunc, self).form_valid(form)
+
+
+
 
 
 

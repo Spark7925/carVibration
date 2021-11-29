@@ -31,13 +31,13 @@
                     <td>{{ data_item.name }}</td>
                     <td><input type="text" value="{{ data_item.value }}"></td>
                     <td>{{ data_item.unit }}</td>
-{#                    <td>#}
-{##}
-{#                        <div class="PublicTableBtnIcon Color4Btn Js_delete">#}
-{#                            <i class="iconfont icon-shanchu"></i>#}
-{#                            <span>删除</span>#}
-{#                        </div>#}
-{#                    </td>#}
+                    {#                    <td>#}
+                    {##}
+                    {#                        <div class="PublicTableBtnIcon Color4Btn Js_delete">#}
+                    {#                            <i class="iconfont icon-shanchu"></i>#}
+                    {#                            <span>删除</span>#}
+                    {#                        </div>#}
+                    {#                    </td>#}
                 </tr>
             {% endfor %}
 
@@ -45,12 +45,11 @@
         </table>
     </div>
 
+    <h3><span class="label label-default" id="submit-btn">参数初始化</span></h3>
 
-    <h3><span class="label label-default" id="submit-btn">数据初始化</span></h3>
-
-<script setup lang="ts">
-import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons'
-</script>
+    <script setup lang="ts">
+        import {Search, Edit, Check, Message, Star, Delete} from '@element-plus/icons'
+    </script>
 
 
 {% endblock %}

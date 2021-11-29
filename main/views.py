@@ -24,4 +24,4 @@ class Index(View):
                      ]
         context = {"data_list":data_list}
 
-        return render(request, 'main/initialize.html', context)
+        return render(request, 'main/../templates/vibration/initialize.html', context)

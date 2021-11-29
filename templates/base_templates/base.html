@@ -34,9 +34,9 @@
 
             <div class="btn-group" role="group" aria-label="..." id="base-btn-group">
                 <button type="button" class="btn btn-default" id="emulate-begin">仿真开始</button>
-                <button type="button" class="btn btn-default"><a href="/emulate/initialize/">参数初始化</a></button>
-                <button type="button" class="btn btn-default">车载设备参数</button>
-                <button type="button" class="btn btn-default">振动激励设置</button>
+                <button type="button" class="btn btn-default"><a href="/vibration/initialize/">参数初始化</a></button>
+                <button type="button" class="btn btn-default"><a href="/vibration/equipment_set/">车载设备参数</a></button>
+                <button type="button" class="btn btn-default"><a href="/vibration/vibration_func/">振动激励设置</a></button>
                 <button type="button" class="btn btn-default">参数检验</button>
                 <button type="button" class="btn btn-default">仿真求解</button>
                 <button type="button" class="btn btn-default">结果显示</button>
@@ -55,20 +55,49 @@
 <script src="/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 
 <script>
-    $("#emulate-begin").click(function () {
-        // 单击仿真开始，弹出提示框
-        alert("您已开始一次仿真，请按步骤进行！")
-        // 生成12位随机字符串
-        var str = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-        var res = "";
-        for (var i = 0; i < 12; i++) {
-            var id = Math.ceil(Math.random() * 35)
-            res += str[id];
-        }
-        alert(res)
-        // 在id="base-btn-group"的div标签下创建名为"secret_key"的随机字符串
-        $("#base-btn-group").attr("secret_key",res);
-    });
+    $(function () {
+        $("#emulate-begin").click(function () {
+            // 生成12位随机字符串
+            var str = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+            var secret_key = "";
+            for (var i = 0; i < 12; i++) {
+                var id = Math.ceil(Math.random() * 35)
+                secret_key += str[id];
+            }
+            // 生成csrf的值
+            $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}'}});
+
+            $.ajax({
+                url: "/vibration/begin/",
+                type: "post",
+                data: {
+                    "secret_key": secret_key
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        alert("您已开始一次仿真,请按步骤进行！")
+                    } else {
+                        alert(data.message)
+                    }
+                }
+            })
+        })
+
+    })
+
+    {#$("#emulate-begin").click(function () {#}
+    {#    // 单击仿真开始，弹出提示框#}
+    {#    alert("您已开始一次仿真，请按步骤进行！")#}
+    {#    // 生成12位随机字符串#}
+    {#    var str = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];#}
+    {#    var res = "";#}
+    {#    for (var i = 0; i < 12; i++) {#}
+    {#        var id = Math.ceil(Math.random() * 35)#}
+    {#        res += str[id];#}
+    {#    }#}
+    {#    // 在id="base-btn-group"的div标签下创建名为"secret_key"的随机字符串#}
+    {#    $("#base-btn-group").attr("secret_key", res);#}
+    {#});#}
 
 
 </script>

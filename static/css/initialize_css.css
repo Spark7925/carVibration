@@ -99,13 +99,15 @@
 }
 
 #submit-btn {
-    margin-left:600px;
-    margin-top:5px;
+    margin-left:620px;
+    margin-top:1px;
 }
 
 #submit-btn span {
-    font-size:14px;
+    font-size:12px;
     color:black;
     background-color:white;
 }
+
+
 

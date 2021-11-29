@@ -1,0 +1,32 @@
+p label {
+    font-size: 12px;
+}
+
+#equipment-save {
+    width: 90px;
+    float: right;
+    font-size: 18px;
+    color: white;
+    height: 40px;
+    margin-bottom: 40px;
+    margin-right: 500px;
+    background-color: #c9daf8;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.equipment-form {
+    margin-top: 20px;
+    margin-left: 300px;
+    margin-right: 20px;
+    margin-bottom: 80px;
+}
+
+.equipment-form input {
+    width: 300px;
+    height: 25px;
+}
+
+.equipment-form label {
+    font-family: inherit;
+}

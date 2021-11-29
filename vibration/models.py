@@ -14,7 +14,7 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class SubmitData(BaseModel):
+class SetData(BaseModel):
     """
     提交数据表
     """
@@ -23,12 +23,13 @@ class SubmitData(BaseModel):
     m4 = models.IntegerField(verbose_name="质心后部车载设备等效质量", default=1.5)
     l3 = models.IntegerField(verbose_name="质心前部车载设备质心至车架质心的距离", default=100)
     l4 = models.IntegerField(verbose_name="质心后部车载设备质心至车架质心的距离", default=100)
+    amplitude = models.IntegerField(verbose_name="振动激励正弦函数振幅", default=1000)
+    frequency = models.IntegerField(verbose_name="振动激励正弦函数频率", default=400)
 
     def __str__(self):
-        return self.title
+        return self.secret_key
 
     class Meta:
-        verbose_name = "提交数据表"
-        verbose_name_plural = "提交数据表"
+        verbose_name = "提交车载设备数据表"
+        verbose_name_plural = "提交车载设备数据表"
         ordering = ["-update_time"]
-        get_latest_by = "id"

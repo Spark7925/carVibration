@@ -1,0 +1,21 @@
+{% extends "base_templates/base.html" %}
+
+
+{% block head_block %}
+    <title>设置车载设备参数</title>
+    <link rel="stylesheet" href="/static/css/equipment_set_css.css"/>
+{% endblock %}
+
+
+{% block content %}
+
+    <form action="/vibration/equipment_set/" method="post" novalidate class="equipment-form">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <p>
+            <input id="equipment-save" class="btn btn-info form-control" type="submit" value="提交">
+        </p>
+    </form>
+
+{% endblock %}
