@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 
 from vibration.forms import EquipmentSetForm, VibrationFuncForm
-from vibration.models import SetData
+from vibration.models import SetData, InitialPara
 
 # Create your views here.
 
@@ -22,6 +22,37 @@ def begin(request):
             return JsonResponse(ret)
     return JsonResponse(ret)
 
+
+# 参数初始化设置
+def para_set(request):
+    para_set_ret = {"status": 0, "message": "参数初始化失败,请重试!"}
+    if request.method == "POST":
+        initial_para_data = {
+            "m": 1354.5,
+            "m1": 80,
+            "m2": 68.5,
+            "j": 64.3,
+            "c1": 600,
+            "c2": 550,
+            "k1": 18000,
+            "k2": 16997,
+            "k4": 118000,
+            "k5": 118000,
+            "l1": 1.110,
+            "l2": 1.300,
+            "length": 2.410
+        }
+        initialize_valid = request.POST.get("initialize_valid", None)
+        if initialize_valid:
+            initial_para_obj = InitialPara.objects.all()
+            if initial_para_obj:
+                pass
+            else:
+                InitialPara.objects.create(**initial_para_data)
+            para_set_ret["status"] = 1
+            para_set_ret["message"] = "参数初始化成功，请进行下一步！"
+            return JsonResponse(para_set_ret)
+    return JsonResponse(para_set_ret)
 
 
 class Initialization(View):
@@ -105,6 +136,23 @@ class VibrationFunc(generic.FormView):
             set_data_obj.objects.create(**kwargs)
 
         return super(VibrationFunc, self).form_valid(form)
+
+
+# 仿真参数检查
+def para_valid(request):
+    para_valid_ret = {"status": 0, "message": "参数检查错误,请检查已完成的步骤!"}
+    if request.method == "POST":
+        secret_key = request.POST.get("secret_key", None)
+        if secret_key:
+            set_data_obj = SetData.objects.get(secret_key=secret_key)
+        else:
+            return JsonResponse(para_valid_ret)
+        initial_data_obj = InitialPara.objects.get(id=1)
+        if set_data_obj and initial_data_obj:
+            para_valid_ret["status"] = 1
+            para_valid_ret["message"] = "参数检查成功，请进行下一步！"
+            return JsonResponse(para_valid_ret)
+    return JsonResponse(para_valid_ret)
 
 
 

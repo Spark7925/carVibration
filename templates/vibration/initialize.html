@@ -47,9 +47,29 @@
 
     <h3><span class="label label-default" id="submit-btn">参数初始化</span></h3>
 
-    <script setup lang="ts">
-        import {Search, Edit, Check, Message, Star, Delete} from '@element-plus/icons'
-    </script>
+{% endblock %}
 
+
+{% block script-content %}
+    <script >
+        $(function () {
+            $("#submit-btn").click(function () {
+                // 生成csrf的值
+                $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}'}});
+
+                $.ajax({
+                    url: "/vibration/initialize/para_set/",
+                    type: "post",
+                    data: {
+                        "initialize_valid": 1
+                    },
+                    success: function (data) {
+                        alert(data.message)
+                    }
+                })
+            })
+
+        })
+    </script>
 
 {% endblock %}

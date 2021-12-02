@@ -73,7 +73,7 @@ class VibrationFuncForm(forms.Form):
     )
 
     frequency = forms.IntegerField(
-        label="振动激励正弦函数频率",
+        label="振动激励发动机转速",
         error_messages={
             "required": "数据不能为空",
         },
