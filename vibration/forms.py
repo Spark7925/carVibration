@@ -14,7 +14,7 @@ from django.core.exceptions import ValidationError
 
 # 定义一个提交车载设备数据的form类
 class EquipmentSetForm(forms.Form):
-    m3 = forms.IntegerField(
+    m3 = forms.DecimalField(
         label="质心前部车载设备等效质量",
         error_messages={
             "required": "数据不能为空",
@@ -25,7 +25,7 @@ class EquipmentSetForm(forms.Form):
         )
     )
 
-    m4 = forms.IntegerField(
+    m4 = forms.DecimalField(
         label="质心后部车载设备等效质量",
         error_messages={
             "required": "数据不能为空",
@@ -36,7 +36,7 @@ class EquipmentSetForm(forms.Form):
         )
     )
 
-    l3 = forms.IntegerField(
+    l3 = forms.DecimalField(
         label="质心前部车载设备质心至车架质心的距离",
         error_messages={
             "required": "数据不能为空",
@@ -47,7 +47,7 @@ class EquipmentSetForm(forms.Form):
         )
     )
 
-    l4 = forms.IntegerField(
+    l4 = forms.DecimalField(
         label="质心后部车载设备质心至车架质心的距离",
         error_messages={
             "required": "数据不能为空",
@@ -61,7 +61,7 @@ class EquipmentSetForm(forms.Form):
 
 # 定义一个提交振动激励数据的form类
 class VibrationFuncForm(forms.Form):
-    amplitude = forms.IntegerField(
+    amplitude = forms.DecimalField(
         label="振动激励正弦函数振幅",
         error_messages={
             "required": "数据不能为空",
@@ -72,7 +72,7 @@ class VibrationFuncForm(forms.Form):
         )
     )
 
-    frequency = forms.IntegerField(
+    frequency = forms.DecimalField(
         label="振动激励发动机转速",
         error_messages={
             "required": "数据不能为空",

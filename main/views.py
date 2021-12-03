@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 
 class Index(View):
-    """动物商城商品列表"""
+    """主页视图"""
 
     def get(self, request, *args, **kwargs):
         data_list = [{"name": "车身等效质量", "value": 1354.5, "unit": "Kg"},
@@ -23,5 +23,4 @@ class Index(View):
                      {"name": "汽车前后轴之间距离", "value": 2.410, "unit": "m"}
                      ]
         context = {"data_list": data_list}
-
         return render(request, 'vibration/initialize.html', context)

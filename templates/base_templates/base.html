@@ -38,7 +38,7 @@
                 <button type="button" class="btn btn-default"><a href="/vibration/equipment_set/">车载设备参数</a></button>
                 <button type="button" class="btn btn-default"><a href="/vibration/vibration_func/">振动激励设置</a></button>
                 <button type="button" class="btn btn-default" id="btn-para-valid">参数检验</button>
-                <button type="button" class="btn btn-default">仿真求解</button>
+                <button type="button" class="btn btn-default" id="btn-simulate">仿真求解</button>
                 <button type="button" class="btn btn-default">结果显示</button>
             </div>
 
@@ -65,8 +65,14 @@
                 secret_key += str[id];
             }
 
-            // 将随机字符串保存在标题栏属性中
-            $("#base-btn-group").attr("secret_key",secret_key);
+            // 将随机字符串保存在cookie中
+            {#$("#base-btn-group").attr("secret_key",secret_key);#}
+
+            {#var exp = new Date();#}
+            {#exp.setTime(exp.getTime() + 2*60*60*1000);#}
+            {#document.cookie = "secret_key" + "="+ escape (secret_key) + ";expires=" + exp.toGMTString();#}
+
+            localStorage.setItem("secret_key", secret_key)
 
             // 生成csrf的值
             $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}'}});
@@ -87,14 +93,42 @@
             })
         })
 
+        // 单击参数检查按钮，向后端发送ajax请求
         $("#btn-para-valid").click(function () {
-            var secret_key = $("#base-btn-group").attr("secret_key");
+            {#var secret_key = $("#base-btn-group").attr("secret_key");#}
+            {#var cookie_item = document.cookie.split(";");#}
+            {#console.log(document.cookie);#}
+            {#var secret_middle = cookie_item[0].split("=");#}
+            {#var secret_key = secret_middle[1];#}
+            {#console.log(secret_key);#}
+
+            var secret_key = localStorage.getItem("secret_key");
 
             // 生成csrf的值
             $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}'}});
 
             $.ajax({
                 url: "/vibration/para_valid/",
+                type: "post",
+                data: {
+                    "secret_key": secret_key
+                },
+                success: function (data) {
+                    alert(data.message)
+                }
+            })
+        })
+
+        // 单击仿真计算按钮，向后端发送ajax请求
+        $("#btn-simulate").click(function () {
+            {#var secret_key = $("#base-btn-group").attr("secret_key");#}
+            var secret_key = localStorage.getItem("secret_key");
+
+            // 生成csrf的值
+            $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}'}});
+
+            $.ajax({
+                url: "/vibration/simulate/",
                 type: "post",
                 data: {
                     "secret_key": secret_key

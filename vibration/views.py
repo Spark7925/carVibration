@@ -155,6 +155,31 @@ def para_valid(request):
     return JsonResponse(para_valid_ret)
 
 
+# 仿真开始函数
+def simulate(request):
+    simulate_ret = {"status": 0, "message": "仿真计算失败,请检查之前的步骤!"}
+    if request.method == "POST":
+        secret_key = request.POST.get("secret_key", None)
+        if secret_key:
+            try:
+                set_data_obj = SetData.objects.get(secret_key=secret_key)
+                initial_para_obj = InitialPara.objects.get(id=1)
+                print("set_data_obj", set_data_obj)
+                print("initial_para_obj", initial_para_obj)
+            except Exception as e:
+                return JsonResponse(simulate_ret)
+
+            # 调用MATLAB引擎，仿真求解
+            import matlab.engine
+            engine = matlab.engine.start_matlab()
+            ans = engine.middle_example()
+
+            simulate_ret["status"] = 1
+            simulate_ret["message"] = ""
+            return JsonResponse(simulate_ret)
+    return JsonResponse(simulate_ret)
+
+
 
 
 
