@@ -54,9 +54,6 @@ class InitialPara(models.Model):
     l2 = models.DecimalField(verbose_name="后轮中心至车架质心的距离", max_digits=19, decimal_places=6, default=1.300)
     length = models.DecimalField(verbose_name="汽车前后轴之间距离", max_digits=19, decimal_places=6, default=2.410)
 
-    def __str__(self):
-        return self.m
-
     class Meta:
         verbose_name = "初始化参数表"
         verbose_name_plural = "初始化参数表"

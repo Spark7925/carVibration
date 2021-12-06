@@ -161,21 +161,56 @@ def simulate(request):
     if request.method == "POST":
         secret_key = request.POST.get("secret_key", None)
         if secret_key:
-            try:
-                set_data_obj = SetData.objects.get(secret_key=secret_key)
-                initial_para_obj = InitialPara.objects.get(id=1)
-                print("set_data_obj", set_data_obj)
-                print("initial_para_obj", initial_para_obj)
-            except Exception as e:
-                return JsonResponse(simulate_ret)
+            # try:
+            set_data_obj = SetData.objects.get(secret_key=secret_key)
+            initial_para_obj = InitialPara.objects.get(id=1)
+            # simulate_data = {
+            #     "secret_key": set_data_obj.secret_key,
+            #     "m3": set_data_obj.m3,
+            #     "m4": set_data_obj.m4,
+            #     "l3": set_data_obj.l3,
+            #     "l4": set_data_obj.l4,
+            #     "amplitude": set_data_obj.amplitude,
+            #     "frequency": set_data_obj.frequency,
+            #     "m": initial_para_obj.m,
+            #     "m1": initial_para_obj.m1,
+            #     "m2": initial_para_obj.m2,
+            #     "j": initial_para_obj.j,
+            #     "c1": initial_para_obj.c1,
+            #     "c2": initial_para_obj.c2,
+            #     "k1": initial_para_obj.k1,
+            #     "k2": initial_para_obj.k2,
+            #     "k4": initial_para_obj.k4,
+            #     "k5": initial_para_obj.k5,
+            #     "l1": initial_para_obj.l1,
+            #     "l2": initial_para_obj.l2,
+            #     "length": initial_para_obj.length
+            # }
 
-            # 调用MATLAB引擎，仿真求解
+            # python数据转化为matlab可以接收的数据类型
+            matlab_m3 = set_data_obj.m3
+            matlab_m3 = float(matlab_m3)
+            matlab_m4 = set_data_obj.m4
+            matlab_m4 = float(matlab_m4)
+            matlab_l3 = set_data_obj.l3
+            matlab_l3 = float(matlab_l3)
+            matlab_l4 = set_data_obj.l4
+            matlab_l4 = float(matlab_l4)
+            matlab_amplitude = set_data_obj.amplitude
+            matlab_amplitude = float(matlab_amplitude)
+            matlab_frequency = set_data_obj.frequency
+            matlab_frequency = float(matlab_frequency)
+
+            # 调用MATLAB引擎，计算求解
             import matlab.engine
             engine = matlab.engine.start_matlab()
-            ans = engine.middle_example()
+            engine.python_middle_matlab(matlab_m3, matlab_m4, matlab_l3, matlab_l4, matlab_amplitude, matlab_frequency)
+
+            # except Exception as e:
+            #     return JsonResponse(simulate_ret)
 
             simulate_ret["status"] = 1
-            simulate_ret["message"] = ""
+            simulate_ret["message"] = "计算完成！"
             return JsonResponse(simulate_ret)
     return JsonResponse(simulate_ret)
 
