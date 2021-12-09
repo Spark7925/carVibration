@@ -3,7 +3,7 @@ from django.views import generic
 from django.shortcuts import render
 from django.http import JsonResponse
 
-from vibration.forms import EquipmentSetForm, VibrationFuncForm
+from vibration.forms import EquipmentSetForm, VibrationFuncForm, AbsorberForm
 from vibration.models import SetData, InitialPara
 
 # Create your views here.
@@ -138,6 +138,39 @@ class VibrationFunc(generic.FormView):
         return super(VibrationFunc, self).form_valid(form)
 
 
+# 用户选择是否添加减震器并设置减震器参数
+class Absorber(generic.FormView):
+    """
+    减震器参数设置
+    """
+    form_class = AbsorberForm
+    template_name = 'vibration/absorber.html'
+    success_url = '/vibration/absorber/'
+
+    def form_valid(self, form):
+        secret_key = self.request.session['secret_key']
+        set_data_obj = SetData.objects.get(secret_key=secret_key)
+        if set_data_obj:
+            set_data_obj.k7 = form.cleaned_data['k7']
+            set_data_obj.k8 = form.cleaned_data['k8']
+            set_data_obj.c5 = form.cleaned_data['c5']
+            set_data_obj.c6 = form.cleaned_data['c6']
+            set_data_obj.absorber_valid = True
+            set_data_obj.save()
+        else:
+            kwargs = {
+                'k7': form.cleaned_data['k7'],
+                'k8': form.cleaned_data['k8'],
+                'c5': form.cleaned_data['c5'],
+                'c6': form.cleaned_data['c6'],
+                'absorb_valid': True,
+                'secret_key': secret_key
+            }
+            set_data_obj.objects.create(**kwargs)
+
+        return super(Absorber, self).form_valid(form)
+
+
 # 仿真参数检查
 def para_valid(request):
     para_valid_ret = {"status": 0, "message": "参数检查错误,请检查已完成的步骤!"}
@@ -204,7 +237,22 @@ def simulate(request):
             # 调用MATLAB引擎，计算求解
             import matlab.engine
             engine = matlab.engine.start_matlab()
-            engine.python_middle_matlab(matlab_m3, matlab_m4, matlab_l3, matlab_l4, matlab_amplitude, matlab_frequency)
+
+            # 判断是否添加了减震器
+            absorber_valid_back = set_data_obj.absorber_valid
+
+            if absorber_valid_back:
+                matlab_k7 = set_data_obj.k7
+                matlab_k7 = float(matlab_k7)
+                matlab_k8 = set_data_obj.k8
+                matlab_k8 = float(matlab_k8)
+                matlab_c5 = set_data_obj.c5
+                matlab_c5 = float(matlab_c5)
+                matlab_c6 = set_data_obj.c6
+                matlab_c6 = float(matlab_c6)
+                engine.python_middle_matlab_k_zuni(matlab_k7, matlab_k8, matlab_c5, matlab_c6, matlab_m3, matlab_m4, matlab_l3, matlab_l4, matlab_amplitude, matlab_frequency)
+            else:
+                engine.python_middle_matlab(matlab_m3, matlab_m4, matlab_l3, matlab_l4, matlab_amplitude, matlab_frequency)
 
             # except Exception as e:
             #     return JsonResponse(simulate_ret)

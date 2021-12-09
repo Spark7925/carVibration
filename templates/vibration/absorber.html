@@ -1,0 +1,35 @@
+{% extends "base_templates/base.html" %}
+
+
+{% block head_block %}
+    <title>添加减震器</title>
+    <link rel="stylesheet" href="/static/css/absorber_css.css"/>
+{% endblock %}
+
+
+{% block content %}
+    <div class="panel panel-default" id="absorber-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">减震器添加</h3>
+        </div>
+        <div class="panel-body">
+            <form action="/vibration/absorber/" method="post" novalidate class="absorber-form">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form.as_p }}
+                <p>
+                    <input id="absorber-save" class="btn btn-info form-control" type="submit" value="提交">
+                </p>
+            </form>
+
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <strong>注意!</strong> 如果不需要添加减震器进行仿真计算，请不要做任何操作，直接跳过此步骤。
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

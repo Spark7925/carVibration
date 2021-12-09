@@ -2,9 +2,9 @@
 # encoding: utf-8
 
 """
-version: 1.0.0
+version: 2.0.0
 author: binchen
-time: 2021-11-29 10:44
+time: 2021-12-09 11:29
 注册功能用到的form类
 """
 
@@ -74,6 +74,53 @@ class VibrationFuncForm(forms.Form):
 
     frequency = forms.DecimalField(
         label="振动激励发动机转速",
+        error_messages={
+            "required": "数据不能为空",
+        },
+
+        widget=forms.widgets.TextInput(
+            attrs={"class": "form-control"},
+        )
+    )
+
+
+# 定义一个设置减震器参数的form类
+class AbsorberForm(forms.Form):
+    k7 = forms.DecimalField(
+        label="质心前部车载设备减震器刚度系数",
+        error_messages={
+            "required": "数据不能为空",
+        },
+
+        widget=forms.widgets.TextInput(
+            attrs={"class": "form-control"},
+        )
+    )
+
+    k8 = forms.DecimalField(
+        label="质心后部车载设备减震器刚度系数",
+        error_messages={
+            "required": "数据不能为空",
+        },
+
+        widget=forms.widgets.TextInput(
+            attrs={"class": "form-control"},
+        )
+    )
+
+    c5 = forms.DecimalField(
+        label="质心前部车载设备减震器阻尼系数",
+        error_messages={
+            "required": "数据不能为空",
+        },
+
+        widget=forms.widgets.TextInput(
+            attrs={"class": "form-control"},
+        )
+    )
+
+    c6 = forms.DecimalField(
+        label="质心后部车载设备减震器阻尼系数",
         error_messages={
             "required": "数据不能为空",
         },
